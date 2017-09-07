@@ -53,10 +53,23 @@ public class Pacman_move_v2 : MonoBehaviour {
 
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        GameObject col_object = collision.gameObject;
+        int col_layer = col_object.layer;
+
+        if(col_layer == 9)
+        {
+            Destroy(col_object);
+        }
+    }
+
     bool valid(Vector2 dir)
     {
         // Cast Line from 'next to Pac-Man' to 'Pac-Man'
         Vector2 pos = transform.position;
+        //int wall_layer_mask = 1 << 8;
+        //RaycastHit2D hit = Physics2D.Linecast(pos + dir * 0.13f, pos, wall_layer_mask);
         RaycastHit2D hit = Physics2D.Linecast(pos + dir * 0.13f, pos);
         return (hit.collider == GetComponent<Collider2D>());
     }
