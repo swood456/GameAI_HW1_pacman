@@ -83,6 +83,7 @@ public class level_spawn_from_text : MonoBehaviour {
                 else if (c == 'p')
                 {
                     // make a pellet
+                    GameObject mynewwall = (GameObject)Instantiate(pellet, new Vector3(i * width, (file_lines.Count - j) * height), Quaternion.identity);
                 }
                 else if (c == 'e')
                 {

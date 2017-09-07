@@ -5,9 +5,9 @@ using UnityEngine;
 public class pacman_controller : MonoBehaviour {
 
     public float movespeed = 5.0f;
+    
 
-    int moving_x = -1;
-    int moving_y = 0;
+    Vector2 move_dir = new Vector2(-1, 0);
 
 	// Use this for initialization
 	void Start () {
@@ -17,7 +17,11 @@ public class pacman_controller : MonoBehaviour {
     bool is_valid_move(int x, int y)
     {
         // eventually actually check for valid stuff
-        return true;
+        Vector2 pos = transform.position;
+        move_dir += new Vector2(move_dir.x * 0.45f, move_dir.y * 0.45f);
+        RaycastHit2D hit = Physics2D.Linecast(pos + move_dir, pos);
+        print("hit name: " + hit.collider.name);
+        return hit.collider.name == "pellet" || hit.collider.name == "pacman" || (hit.collider == GetComponent<Collider2D>());
     }
 	
 	// Update is called once per frame
@@ -33,8 +37,8 @@ public class pacman_controller : MonoBehaviour {
                 // set facing to up
                 transform.rotation = Quaternion.AngleAxis(90, Vector3.forward);
 
-                moving_x = 0;
-                moving_y = 1;
+                move_dir.x = 0;
+                move_dir.y = 1;
             }
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow))
@@ -43,8 +47,8 @@ public class pacman_controller : MonoBehaviour {
             if (is_valid_move(0, -1))
             {
                 transform.rotation = Quaternion.AngleAxis(270, Vector3.forward);
-                moving_x = 0;
-                moving_y = -1;
+                move_dir.x = 0;
+                move_dir.y = -1;
             }
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow))
@@ -53,8 +57,8 @@ public class pacman_controller : MonoBehaviour {
             if (is_valid_move(1, 0))
             {
                 transform.rotation = Quaternion.AngleAxis(0, Vector3.forward);
-                moving_x = 1;
-                moving_y = 0;
+                move_dir.x = 1;
+                move_dir.y = 0;
             }
         }
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
@@ -63,13 +67,13 @@ public class pacman_controller : MonoBehaviour {
             if (is_valid_move(-1, 0))
             {
                 transform.rotation = Quaternion.AngleAxis(180, Vector3.forward);
-                moving_x = -1;
-                moving_y = 0;
+                move_dir.x = -1;
+                move_dir.y = 0;
             }
         }
 
-        //transform.position = transform.position + new Vector3(movespeed * Time.deltaTime * moving_x, movespeed * Time.deltaTime * moving_y);
-        GetComponent<Rigidbody2D>().velocity = new Vector2(movespeed * moving_x, movespeed * moving_y);
+        //transform.position = transform.position + new Vector3(movespeed * Time.deltaTime * move_dir.x, movespeed * Time.deltaTime * move_dir.y);
+        GetComponent<Rigidbody2D>().velocity = new Vector2(movespeed * move_dir.x, movespeed * move_dir.y);
 
 
         /*
@@ -92,8 +96,8 @@ public class pacman_controller : MonoBehaviour {
         //print("collision layer: " + col_layer);
         if(col_layer == 8)
         {
-            moving_x = 0;
-            moving_y = 0;
+            move_dir.x = 0;
+            move_dir.y = 0;
             // TODO: stop eat animation
         }
     }
