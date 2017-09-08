@@ -11,6 +11,7 @@ public class level_spawn_from_text : MonoBehaviour {
     public GameObject wall;
     public GameObject pellet;
     public GameObject player;
+    public Camera main_camera;
 
     List<string> file_lines = new List<string>();
 
@@ -65,12 +66,12 @@ public class level_spawn_from_text : MonoBehaviour {
         float width = 0.13f;
         float height = 0.13f;
 
-        print("width: " + width);
-        print("height: " + height);
+        int map_width = 0;
         // make the world from the list
+        int i;
         for (int j = 0; j < file_lines.Count; ++j)
         {
-            int i = 0;
+            i = 0;
             foreach (char c in file_lines[j])
             {
                 if(c == 'w')
@@ -94,7 +95,11 @@ public class level_spawn_from_text : MonoBehaviour {
                 }
                 ++i;
             }
+            if (i > map_width) map_width = i;
         }
+
+        // center camera on map we made
+        main_camera.transform.position = new Vector3(map_width * width * 0.5f, height * file_lines.Count * 0.5f, main_camera.transform.position.z);
     }
 
 
