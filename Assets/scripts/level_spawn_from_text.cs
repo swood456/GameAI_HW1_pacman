@@ -7,18 +7,24 @@ using UnityEngine;
 
 public class level_spawn_from_text : MonoBehaviour {
 
-    public string fileName;
+    public string publicFileName;
     public GameObject wall;
     public GameObject pellet;
     public GameObject player;
     public Camera main_camera;
 
-    List<string> file_lines = new List<string>();
+    
 
     // Use this for initialization
     void Start () {
+        create_level();
+    }
+
+    void create_level()
+    {
         string path = Application.dataPath;
-        fileName = path + "/" + fileName;
+        string fileName = path + "/" + publicFileName;
+        List<string> file_lines = new List<string>();
         // Handle any problems that might arise when reading the text
         try
         {
@@ -37,7 +43,7 @@ public class level_spawn_from_text : MonoBehaviour {
                 do
                 {
                     line = theReader.ReadLine();
-                    
+
 
                     if (line != null)
                     {
@@ -61,7 +67,7 @@ public class level_spawn_from_text : MonoBehaviour {
         {
             print(e);
         }
-        
+
 
         float width = 0.13f;
         float height = 0.13f;
@@ -74,15 +80,15 @@ public class level_spawn_from_text : MonoBehaviour {
             i = 0;
             foreach (char c in file_lines[j])
             {
-                if(c == 'w')
+                if (c == 'w')
                 {
                     // make a wall
-                    GameObject mynewwall = (GameObject)Instantiate(wall, new Vector3(i * width, (file_lines.Count - j) * height), Quaternion.identity);
+                    GameObject mynewwall = (GameObject)Instantiate(wall, new Vector3(i * width, (file_lines.Count - j) * height), Quaternion.identity, transform);
                 }
                 else if (c == 'p')
                 {
                     // make a pellet
-                    GameObject mynewwall = (GameObject)Instantiate(pellet, new Vector3(i * width, (file_lines.Count - j) * height), Quaternion.identity);
+                    GameObject mynewwall = (GameObject)Instantiate(pellet, new Vector3(i * width, (file_lines.Count - j) * height), Quaternion.identity, transform);
                 }
                 else if (c == ' ')
                 {
@@ -91,7 +97,7 @@ public class level_spawn_from_text : MonoBehaviour {
                 else if (c == 's')
                 {
                     // make player
-                    GameObject mynewwall = (GameObject)Instantiate(player, new Vector3(i * width, (file_lines.Count - j) * height), Quaternion.identity);
+                    GameObject mynewwall = (GameObject)Instantiate(player, new Vector3(i * width, (file_lines.Count - j) * height), Quaternion.identity, transform);
                 }
                 ++i;
             }
@@ -102,5 +108,14 @@ public class level_spawn_from_text : MonoBehaviour {
         main_camera.transform.position = new Vector3(map_width * width * 0.5f, height * file_lines.Count * 0.5f, main_camera.transform.position.z);
     }
 
+    public void restart_game()
+    {
+        // delete all children
+        List<GameObject> children = new List<GameObject>();
+        foreach (Transform child_transform in transform) children.Add(child_transform.gameObject);
+        children.ForEach(child => Destroy(child));
+
+        create_level();
+    }
 
 }
