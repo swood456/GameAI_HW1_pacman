@@ -75,16 +75,7 @@ public class pacman_controller : MonoBehaviour {
         //transform.position = transform.position + new Vector3(movespeed * Time.deltaTime * move_dir.x, movespeed * Time.deltaTime * move_dir.y);
         GetComponent<Rigidbody2D>().velocity = new Vector2(movespeed * move_dir.x, movespeed * move_dir.y);
 
-
-        /*
-        Vector3 _origPos = new Vector3(0.0f,0.0f,0.0f);
-        Vector3 moveDirection = gameObject.transform.position - _origPos;
-        if (moveDirection != Vector3.zero)
-        {
-            float angle = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-        }
-        */
+        
 
     }
 
@@ -93,7 +84,6 @@ public class pacman_controller : MonoBehaviour {
         // see if it is a wall
         GameObject col_object = collision.gameObject;
         int col_layer = col_object.layer;
-        //print("collision layer: " + col_layer);
         if(col_layer == 8)
         {
             move_dir.x = 0;

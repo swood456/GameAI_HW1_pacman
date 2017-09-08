@@ -17,7 +17,6 @@ public class level_spawn_from_text : MonoBehaviour {
     // Use this for initialization
     void Start () {
         string path = Application.dataPath;
-        //fileName = file.name + ".txt";
         fileName = path + "/" + fileName;
         // Handle any problems that might arise when reading the text
         try
@@ -61,8 +60,7 @@ public class level_spawn_from_text : MonoBehaviour {
         {
             print(e);
         }
-
-        //RectTransform rt = (RectTransform)wall.transform;
+        
 
         float width = 0.13f;
         float height = 0.13f;
@@ -99,9 +97,5 @@ public class level_spawn_from_text : MonoBehaviour {
         }
     }
 
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
 }
