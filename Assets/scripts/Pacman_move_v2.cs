@@ -68,7 +68,7 @@ public class Pacman_move_v2 : MonoBehaviour {
     {
         // Cast Line from 'next to Pac-Man' to 'Pac-Man'
         Vector2 pos = transform.position;
-        //int wall_layer_mask = 1 << 8;
+        //int wall_layer_mask = 1 << 8 + 1 <<;
         //RaycastHit2D hit = Physics2D.Linecast(pos + dir * 0.13f, pos, wall_layer_mask);
         RaycastHit2D hit = Physics2D.Linecast(pos + dir * 0.13f, pos);
         return (hit.collider == GetComponent<Collider2D>());
