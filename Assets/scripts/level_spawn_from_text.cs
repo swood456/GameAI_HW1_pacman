@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class level_spawn_from_text : MonoBehaviour {
@@ -12,8 +13,7 @@ public class level_spawn_from_text : MonoBehaviour {
     public GameObject pellet;
     public GameObject player;
     public Camera main_camera;
-
-    
+    public Text highScoreText;  
 
     // Use this for initialization
     void Start () {
@@ -25,6 +25,12 @@ public class level_spawn_from_text : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.R))
         {
             restart_game();
+        }
+
+        // update the high score value in UI
+        if (highScoreText)
+        {
+            highScoreText.text = PlayerPrefs.GetInt("HighScore", 0).ToString("00000");
         }
     }
 

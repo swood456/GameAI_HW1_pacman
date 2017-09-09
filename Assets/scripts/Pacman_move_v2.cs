@@ -116,6 +116,16 @@ public class Pacman_move_v2 : MonoBehaviour {
         return (hit.collider == GetComponent<Collider2D>());
     }
 
+    private void OnDestroy()
+    {
+        int high_score = PlayerPrefs.GetInt("HighScore", 0);
+        if (cur_score > high_score)
+        {
+            PlayerPrefs.SetInt("HighScore", cur_score);
+            PlayerPrefs.Save();
+        }
+        
+    }
 
 
 }
