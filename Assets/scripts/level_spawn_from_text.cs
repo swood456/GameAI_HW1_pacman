@@ -20,6 +20,14 @@ public class level_spawn_from_text : MonoBehaviour {
         create_level();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            restart_game();
+        }
+    }
+
     void create_level()
     {
         string path = Application.dataPath;
