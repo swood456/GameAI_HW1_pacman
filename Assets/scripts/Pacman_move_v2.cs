@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Pacman_move_v2 : MonoBehaviour {
 
@@ -8,11 +9,25 @@ public class Pacman_move_v2 : MonoBehaviour {
     Vector2 dest = Vector2.zero;
 
     Vector2 move_dir = -Vector2.right;
+    Text score_text;
+    int cur_score = 0;
 
     // Use this for initialization
     void Start () {
         dest = (Vector2)transform.position - Vector2.right * 0.13f;
         transform.rotation = Quaternion.AngleAxis(180, Vector3.forward);
+
+        // find the text to update score
+        Text[] text_boxes = FindObjectsOfType<Text>();
+        foreach (Text t in text_boxes)
+        {
+            if(t.gameObject.name == "score_text")
+            {
+                score_text = t;
+                break;
+            }
+        }
+        
     }
 
     // Update is called once per frame
@@ -77,7 +92,11 @@ public class Pacman_move_v2 : MonoBehaviour {
         {
             Destroy(col_object);
 
-            // TODO: update score
+            cur_score++;
+            if(score_text)
+            {
+                score_text.text = cur_score.ToString("00000");
+            }
         }
     }
 
