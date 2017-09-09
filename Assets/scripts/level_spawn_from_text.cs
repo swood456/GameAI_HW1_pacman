@@ -12,6 +12,11 @@ public class level_spawn_from_text : MonoBehaviour {
     public GameObject wall;
     public GameObject pellet;
     public GameObject player;
+	public GameObject ghostLightBlue;
+	public GameObject ghostOrange;
+	public GameObject ghostPink;
+	public GameObject ghostRed;
+
     public Camera main_camera;
     public Text highScoreText;  
 
@@ -57,8 +62,6 @@ public class level_spawn_from_text : MonoBehaviour {
                 do
                 {
                     line = theReader.ReadLine();
-
-
                     if (line != null)
                     {
                         // Do whatever you need to do with the text line, it's a string now
@@ -89,30 +92,55 @@ public class level_spawn_from_text : MonoBehaviour {
         int map_width = 0;
         // make the world from the list
         int i;
+		int currentGhostIndex = 0;
         for (int j = 0; j < file_lines.Count; ++j)
         {
             i = 0;
             foreach (char c in file_lines[j])
             {
-                if (c == 'w')
-                {
-                    // make a wall
-                    GameObject mynewwall = (GameObject)Instantiate(wall, new Vector3(i * width, (file_lines.Count - j) * height), Quaternion.identity, transform);
-                }
-                else if (c == 'p')
-                {
-                    // make a pellet
-                    GameObject mynewwall = (GameObject)Instantiate(pellet, new Vector3(i * width, (file_lines.Count - j) * height), Quaternion.identity, transform);
-                }
-                else if (c == ' ')
-                {
-                    // make an empty
-                }
-                else if (c == 's')
-                {
-                    // make player
-                    GameObject mynewwall = (GameObject)Instantiate(player, new Vector3(i * width, (file_lines.Count - j) * height), Quaternion.identity, transform);
-                }
+				Vector3 currentLoc = new Vector3 (i * width, (file_lines.Count - j) * height);
+				GameObject currentObj = null;
+				switch (c) {
+				case 'w':
+					currentObj = wall;
+					break;
+				case 'p':
+					currentObj = pellet;
+					break;
+				case 's':
+					currentObj = player;
+					break;
+				case 'g':
+					switch (currentGhostIndex) {
+					case 0:
+						currentObj = ghostLightBlue;
+						break;
+					case 1: 
+						currentObj = ghostOrange;
+						break;
+					case 2:
+						currentObj = ghostPink;
+						break;
+					case 3:
+						currentObj = ghostRed;
+						break;
+					default:
+						print ("At most 4 ghosts can be provided. Exiting...");
+						Application.Quit ();
+						break;
+					}
+					currentGhostIndex++;
+					break;
+				case ' ':
+					break;
+				default:
+					print ("Unknown character");
+					Application.Quit ();
+					break;
+				}
+				if (currentObj != null) {
+					Instantiate (currentObj, currentLoc, Quaternion.identity, transform);
+				}
                 ++i;
             }
             if (i > map_width) map_width = i;
