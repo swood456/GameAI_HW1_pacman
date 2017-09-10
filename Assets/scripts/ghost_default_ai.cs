@@ -7,6 +7,7 @@ public class ghost_default_ai : MonoBehaviour {
 	public float speed = 0.04f;
 	Vector2 dest = Vector2.zero;
 	Vector2 move_dir = -Vector2.right;
+    
 	int message = 0;
     GhostManager gm;
 
@@ -44,13 +45,16 @@ public class ghost_default_ai : MonoBehaviour {
         if ((Vector2)transform.position == dest)
         {
             Vector2[] choices = new Vector2[] { Vector2.left, Vector2.right, Vector2.up, Vector2.down };
+            int[] degrees = new int[] { 180, 0, 90, 270 };
             // try a few times to get a random direction
-            for(int i = 0; i < 6; ++i)
+            for(int i = 0; i < 10; ++i)
             {
-                Vector2 next_dir = choices[(int)Random.Range(0, 4)];
+                int index = Random.Range(0, 4);
+                Vector2 next_dir = choices[index];
                 if(valid(next_dir))
                 {
                     dest = (Vector2)transform.position + (next_dir * 0.13f);
+                    transform.rotation = Quaternion.AngleAxis(degrees[index], Vector3.forward);
                     return;
                 }
             }
