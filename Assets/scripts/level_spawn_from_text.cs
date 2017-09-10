@@ -23,6 +23,8 @@ public class level_spawn_from_text : MonoBehaviour {
     // Use this for initialization
     void Start () {
         create_level();
+
+        Physics2D.IgnoreLayerCollision(9, 11, true);
     }
 
     private void Update()
