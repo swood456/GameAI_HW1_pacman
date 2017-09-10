@@ -19,7 +19,14 @@ public class ghost_default_ai : MonoBehaviour {
         gm = FindObjectOfType<GhostManager>();
     }
 
-	private bool valid(Vector2 dir)
+    /*
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        print("collision happened between " + gameObject.name + " and " + collision.gameObject.name);
+    }
+    */
+
+    private bool valid(Vector2 dir)
 	{
 		Vector2 pos = transform.position;
 		// we only want to look at ghost and walls, ignore pacman and pellets
