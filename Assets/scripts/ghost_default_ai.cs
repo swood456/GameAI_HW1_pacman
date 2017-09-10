@@ -60,25 +60,14 @@ public class ghost_default_ai : MonoBehaviour {
             }
 
             // after a few tries, just try all possible directions and if that works, stay put
-            if (valid(Vector2.up))
+            for(int i = 0; i < 4; ++i)
             {
-                // move up
-                dest = (Vector2)transform.position + (Vector2.up * 0.13f);
-            }
-            else if (valid (-Vector2.right))
-            {
-                // move left
-                dest = (Vector2)transform.position + (-Vector2.right * 0.13f);
-            }
-            else if (valid(Vector2.right))
-            {
-                // move right
-                dest = (Vector2)transform.position + (Vector2.right * 0.13f);
-            }
-            else if (valid(-Vector2.up))
-            {
-                // move down
-                dest = (Vector2)transform.position + (-Vector2.up * 0.13f);
+                if(valid(choices[i]))
+                {
+                    dest = (Vector2)transform.position + (choices[i] * 0.13f);
+                    transform.rotation = Quaternion.AngleAxis(degrees[i], Vector3.forward);
+                    return;
+                }
             }
         }
     }
