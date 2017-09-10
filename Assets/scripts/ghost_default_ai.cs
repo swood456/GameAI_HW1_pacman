@@ -6,25 +6,21 @@ public class ghost_default_ai : MonoBehaviour {
 
 	public float speed = 0.04f;
 	Vector2 dest = Vector2.zero;
+    Vector2 cur_pos;
 	Vector2 move_dir = -Vector2.right;
     
 	int message = 0;
     GhostManager gm;
 
     public Vector2 get_dest() { return dest; }
+    public Vector2 get_pos() { return cur_pos; }
 
     private void Start()
     {
         dest = transform.position;
+        cur_pos = transform.position;
         gm = FindObjectOfType<GhostManager>();
     }
-
-    /*
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        print("collision happened between " + gameObject.name + " and " + collision.gameObject.name);
-    }
-    */
 
     private bool valid(Vector2 dir)
 	{
@@ -38,8 +34,10 @@ public class ghost_default_ai : MonoBehaviour {
         RaycastHit2D hit = Physics2D.Linecast(pos + dir * 0.13f, pos, wall_layer_mask);
 
         // return true if the thing we hit is NOT wall
-        return  gm.is_dest_valid((Vector2)transform.position + (dir * 0.13f)) && hit.collider == GetComponent<Collider2D>();
-	}
+        //return  gm.is_dest_valid((Vector2)transform.position + (dir * 0.13f)) && hit.collider == GetComponent<Collider2D>();
+        return gm.is_dest_valid((Vector2)transform.position + (dir * 0.13f)) && hit.collider.gameObject.name == name;//hit.collider == GetComponent<Collider2D>();
+        //return gm.is_dest_valid((Vector2)transform.position + (dir * 0.13f));
+    }
     
 	// Update is called once per frame
 	void FixedUpdate () {
@@ -47,10 +45,12 @@ public class ghost_default_ai : MonoBehaviour {
         // move towards our destination
         Vector2 p = Vector2.MoveTowards(transform.position, dest, speed);
         GetComponent<Rigidbody2D>().MovePosition(p);
+        
 
         // when we reach our destination, pick a new one
         if ((Vector2)transform.position == dest)
         {
+            cur_pos = dest;
             Vector2[] choices = new Vector2[] { Vector2.left, Vector2.right, Vector2.up, Vector2.down };
             int[] degrees = new int[] { 180, 0, 90, 270 };
             // try a few times to get a random direction

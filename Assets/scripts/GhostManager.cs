@@ -19,6 +19,18 @@ public class GhostManager : MonoBehaviour {
         {
             ghosts = FindObjectsOfType<ghost_default_ai>();
         }
+
+        // debugging
+        for(int i = 0; i < num_ghosts; ++i)
+            for(int j = i+1; j < num_ghosts; ++j)
+            {
+                if (ghosts[i].get_dest() == ghosts[j].get_dest())
+                    print("BAD! 2 ghosts share same dest");
+            }
+        /*
+        if (ghosts[0].get_dest() == ghosts[1].get_dest())
+            print("BAD! 2 ghosts share same dest");
+            */
 	}
 
     public bool is_dest_valid(Vector2 test_dest)
@@ -26,6 +38,8 @@ public class GhostManager : MonoBehaviour {
         foreach(ghost_default_ai ghost_ai in ghosts)
         {
             if (ghost_ai.get_dest() == test_dest)
+                return false;
+            if (ghost_ai.get_pos() == test_dest)
                 return false;
         }
         return true;
