@@ -77,8 +77,20 @@ public class ghost_default_ai : MonoBehaviour {
         // when we reach our destination, pick a new one
         if ((Vector2)transform.position == dest)
         {
-            // just try up, left, down, right and if none works sit here until one does
-            if(valid(Vector2.up))
+            Vector2[] choices = new Vector2[] { Vector2.left, Vector2.right, Vector2.up, Vector2.down };
+            // try a few times to get a random direction
+            for(int i = 0; i < 6; ++i)
+            {
+                Vector2 next_dir = choices[(int)Random.Range(0, 4)];
+                if(valid(next_dir))
+                {
+                    dest = (Vector2)transform.position + (next_dir * 0.13f);
+                    return;
+                }
+            }
+
+            // after a few tries, just try all possible directions and if that works, stay put
+            if (valid(Vector2.up))
             {
                 // move up
                 dest = (Vector2)transform.position + (Vector2.up * 0.13f);
