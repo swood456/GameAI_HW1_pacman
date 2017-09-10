@@ -86,18 +86,23 @@ public class Pacman_move_v2 : MonoBehaviour {
         // get the gameobject of what he hit, and see what type of object it is
         GameObject col_object = collision.gameObject;
         int col_layer = col_object.layer;
-
-        // layer 9 is for pellets, so for now we delete and eventually increment the score
-        if(col_layer == 9)
-        {
-            Destroy(col_object);
-
-            cur_score++;
-            if(score_text)
-            {
-                score_text.text = cur_score.ToString("00000");
-            }
-        }
+		switch (col_layer) {
+		case 9:
+			// layer 9 is for pellets, so for now we delete and eventually increment the score			
+			Destroy(col_object);
+			cur_score++;
+			if(score_text)
+			{
+				score_text.text = cur_score.ToString("00000");
+			}
+			break;
+		case 11:
+			// layer 11 is for Ghost
+			// Play dead animation.
+			print ("Game Over");
+			Destroy (this.gameObject);
+			break;
+		}
     }
 
     bool valid(Vector2 dir)

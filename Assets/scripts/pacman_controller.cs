@@ -74,9 +74,6 @@ public class pacman_controller : MonoBehaviour {
 
         //transform.position = transform.position + new Vector3(movespeed * Time.deltaTime * move_dir.x, movespeed * Time.deltaTime * move_dir.y);
         GetComponent<Rigidbody2D>().velocity = new Vector2(movespeed * move_dir.x, movespeed * move_dir.y);
-
-        
-
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
