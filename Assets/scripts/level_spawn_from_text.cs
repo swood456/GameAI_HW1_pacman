@@ -150,6 +150,8 @@ public class level_spawn_from_text : MonoBehaviour {
 
         // center camera on map we made
         main_camera.transform.position = new Vector3(map_width * width * 0.5f, height * file_lines.Count * 0.5f, main_camera.transform.position.z);
+
+        FindObjectOfType<GhostManager>().set_num_ghosts(currentGhostIndex);
     }
 
     public void restart_game()

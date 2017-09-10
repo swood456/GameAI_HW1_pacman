@@ -8,15 +8,17 @@ public class ghost_default_ai : MonoBehaviour {
 	Vector2 dest = Vector2.zero;
 	Vector2 move_dir = -Vector2.right;
 	int message = 0;
+    GhostManager gm;
 
     private void Start()
     {
         dest = transform.position;
+        gm = FindObjectOfType<GhostManager>();
     }
     private void OnCollisionEnter2D(Collision2D collision)
 	{
         // get the gameobject of what he hit, and see what type of object it is
-        print("ghost on collision enter");
+        //print("ghost on collision enter");
 		GameObject col_object = collision.gameObject;
 		int col_layer = col_object.layer;
 		switch (col_layer) {
@@ -55,7 +57,7 @@ public class ghost_default_ai : MonoBehaviour {
         RaycastHit2D hit = Physics2D.Linecast(pos + dir * 0.13f, pos, wall_layer_mask);
 
         // return true if the thing we hit is NOT wall
-        return hit.collider == GetComponent<Collider2D>();
+        return  gm.is_dest_valid((Vector2)transform.position + (dir * 0.13f)) && hit.collider == GetComponent<Collider2D>();
 	}
 
 	void randomDir(){
@@ -66,6 +68,8 @@ public class ghost_default_ai : MonoBehaviour {
 	void continueDir(){
 		turn (move_dir);
 	}
+
+    public Vector2 get_dest() { return dest; }
 
 	// Update is called once per frame
 	void FixedUpdate () {
