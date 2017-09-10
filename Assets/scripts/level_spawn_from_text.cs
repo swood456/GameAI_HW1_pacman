@@ -25,7 +25,7 @@ public class level_spawn_from_text : MonoBehaviour {
         create_level();
 
         Physics2D.IgnoreLayerCollision(9, 11, true);
-        Physics2D.IgnoreLayerCollision(11, 11, true); // CHANGEME! do want to stop ghosts from hitting each other
+        //Physics2D.IgnoreLayerCollision(11, 11, true); // CHANGEME! do want to stop ghosts from hitting each other
     }
 
     private void Update()
@@ -161,6 +161,8 @@ public class level_spawn_from_text : MonoBehaviour {
         List<GameObject> children = new List<GameObject>();
         foreach (Transform child_transform in transform) children.Add(child_transform.gameObject);
         children.ForEach(child => Destroy(child));
+
+        FindObjectOfType<GhostManager>().clear_ghosts();
 
         create_level();
     }

@@ -12,30 +12,27 @@ public class GhostManager : MonoBehaviour {
         num_ghosts = num_g;
     }
     
-	
+	public void clear_ghosts()
+    {
+        ghosts = new ghost_default_ai[] { };
+    }
+
 	// Update is called once per frame
 	void Update () {
 		if(ghosts.Length != num_ghosts)
         {
             ghosts = FindObjectsOfType<ghost_default_ai>();
         }
-
-        // debugging
-        for(int i = 0; i < num_ghosts; ++i)
-            for(int j = i+1; j < num_ghosts; ++j)
-            {
-                if (ghosts[i].get_dest() == ghosts[j].get_dest())
-                    print("BAD! 2 ghosts share same dest");
-            }
-        /*
-        if (ghosts[0].get_dest() == ghosts[1].get_dest())
-            print("BAD! 2 ghosts share same dest");
-            */
+        
 	}
 
     public bool is_dest_valid(Vector2 test_dest)
     {
-        foreach(ghost_default_ai ghost_ai in ghosts)
+        if (ghosts.Length != num_ghosts)
+        {
+            ghosts = FindObjectsOfType<ghost_default_ai>();
+        }
+        foreach (ghost_default_ai ghost_ai in ghosts)
         {
             if (ghost_ai.get_dest() == test_dest)
                 return false;

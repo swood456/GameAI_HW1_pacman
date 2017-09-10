@@ -38,9 +38,9 @@ public class ghost_default_ai : MonoBehaviour {
         return gm.is_dest_valid((Vector2)transform.position + (dir * 0.13f)) && hit.collider.gameObject.name == name;//hit.collider == GetComponent<Collider2D>();
         //return gm.is_dest_valid((Vector2)transform.position + (dir * 0.13f));
     }
-    
-	// Update is called once per frame
-	void FixedUpdate () {
+
+    // Update is called once per frame
+    void FixedUpdate () {
 
         // move towards our destination
         Vector2 p = Vector2.MoveTowards(transform.position, dest, speed);
@@ -51,7 +51,7 @@ public class ghost_default_ai : MonoBehaviour {
         if ((Vector2)transform.position == dest)
         {
             cur_pos = dest;
-            Vector2[] choices = new Vector2[] { Vector2.left, Vector2.right, Vector2.up, Vector2.down };
+            Vector2[] choices = new Vector2[] { -Vector2.right, Vector2.right, Vector2.up, -Vector2.up };
             int[] degrees = new int[] { 180, 0, 90, 270 };
             // try a few times to get a random direction
             for(int i = 0; i < 10; ++i)
@@ -62,6 +62,7 @@ public class ghost_default_ai : MonoBehaviour {
                 {
                     dest = (Vector2)transform.position + (next_dir * 0.13f);
                     transform.rotation = Quaternion.AngleAxis(degrees[index], Vector3.forward);
+                    //print(" new dest is: " + dest);
                     return;
                 }
             }
@@ -73,6 +74,7 @@ public class ghost_default_ai : MonoBehaviour {
                 {
                     dest = (Vector2)transform.position + (choices[i] * 0.13f);
                     transform.rotation = Quaternion.AngleAxis(degrees[i], Vector3.forward);
+                    //print(" new dest is: " + dest);
                     return;
                 }
             }
